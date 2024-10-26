@@ -3,12 +3,25 @@ productos = []
 precio = []
 cantidad = []
 
+def cargar_datos():
+    try:
+        with open('productos.txt', 'r') as file:
+            for line in file:
+                datos = line.strip().split(', ')
+                productos.append(datos[0])
+                cantidad.append(int(datos[1]))
+                precio.append(float(datos[2]))
+        print('Datos cargados correctamente')
+    except FileNotFoundError:
+        print('No se encontraron datos previos')
+
 def guardar_datos():
        with open('productos.txt', 'w') as file:
               for i in range(len(productos)):
                     file.write(f"{productos[i]}, {cantidad[i]}, {precio[i]}\n")
 print('Datos guardados correctamente')
 
+cargar_datos()
 
 while True:
     print("""
@@ -17,6 +30,7 @@ while True:
     (3) Actualizar Producto
     (4) Eliminar Producto
     (5) Guardar datos
+    (6) Ver Productos Guardados
     """)
 
     respuesta = int(input('Ingrese su opcion: '))
@@ -71,5 +85,14 @@ while True:
         else:
                 guardar_datos()
                 print('Datos guardados correctamente')
+
+    elif respuesta == 6:
+        if productos:
+            print('Estos son los productos guardados')
+            for i in range (len(productos)):
+                print (f"{i+1}. Nombre: {productos[i]}, Cantidad: {cantidad[i]}, Precio: {precio[i]}")
+        else:
+            print ('No hay productos guardados')
+            
     else:
         break
